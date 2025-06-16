@@ -9,3 +9,41 @@ datasource db {
 }
 
 
+model User {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  password     String
+  pseudo       String
+  inscription  Inscription? // 0 ou 1
+}
+
+model Game {
+  id           String       @id @default(uuid())
+  name         String
+  inscriptions Inscription[]
+}
+
+model Inscription {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @unique
+  game       Game     @relation(fields: [gameId], references: [id])
+  gameId     String
+  team       Team?    @relation(fields: [teamId], references: [id])
+  teamId     String?
+  payment    Payment?
+}
+
+model Team {
+  id           String         @id @default(uuid())
+  name         String
+  members      Inscription[]
+}
+
+model Payment {
+  id             String       @id @default(uuid())
+  inscription    Inscription  @relation(fields: [inscriptionId], references: [id])
+  inscriptionId  String       @unique
+  amount         Float
+  isPaid         Boolean      @default(false)
+}
