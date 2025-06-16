@@ -31,7 +31,6 @@ export async function POST(request: NextRequest) {
             id: user.id,
             email: user.email,
             pseudo: user.pseudo,
-        },
-        status: 200,
+        }
     });
 }
